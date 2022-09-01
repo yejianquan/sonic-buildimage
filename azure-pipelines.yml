@@ -133,7 +133,7 @@ stages:
     pool: sonictest
     displayName: "kvmtest-t0-part1"
     timeoutInMinutes: 360
-
+    continueOnError: true
     steps:
     - template: .azure-pipelines/run-test-template.yml
       parameters:
@@ -147,7 +147,7 @@ stages:
     pool: sonictest
     displayName: "kvmtest-t0-part2"
     timeoutInMinutes: 360
-
+    continueOnError: true
     steps:
     - template: .azure-pipelines/run-test-template.yml
       parameters:
@@ -165,6 +165,7 @@ stages:
     - t0_part1
     - t0_part2
     condition: always()
+    continueOnError: false
     variables:
       resultOfPart1: $[ dependencies.t0_part1.result ]
       resultOfPart2: $[ dependencies.t0_part2.result ]
@@ -183,7 +184,7 @@ stages:
     pool: sonictest-t1-lag
     displayName: "kvmtest-t1-lag"
     timeoutInMinutes: 360
-
+    continueOnError: false
     steps:
     - template: .azure-pipelines/run-test-template.yml
       parameters:
@@ -196,7 +197,7 @@ stages:
     pool: sonictest-sonic-t0
     displayName: "kvmtest-t0-sonic"
     timeoutInMinutes: 360
-
+    continueOnError: true
     steps:
     - template: .azure-pipelines/run-test-template.yml
       parameters:
@@ -210,7 +211,7 @@ stages:
     pool: sonictest-ma
     displayName: "kvmtest-multi-asic-t1-lag"
     timeoutInMinutes: 240
-
+    continueOnError: true
     steps:
     - template: .azure-pipelines/run-test-template.yml
       parameters:
