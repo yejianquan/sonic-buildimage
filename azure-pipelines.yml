@@ -48,11 +48,9 @@ stages:
 - stage: BuildVS
   pool: sonicbld
   jobs:
-  - template: .azure-pipelines/azure-pipelines-build.yml
-    parameters:
-      buildOptions: 'USERNAME=admin SONIC_BUILD_JOBS=$(nproc) BUILD_MULTIASIC_KVM=y ${{ variables.VERSION_CONTROL_OPTIONS }}'
-      jobGroups:
-      - name: vs
+  - job:
+    steps:
+    - bash: echo "skip"
 
 - stage: Build
   pool: sonicbld
@@ -77,6 +75,7 @@ stages:
   condition: and(ne(stageDependencies.BuildVS.outputs['vs.SetVar.SKIP_VSTEST'], 'YES'), in(dependencies.BuildVS.result, 'Succeeded', 'SucceededWithIssues'))
   variables:
   - group: Testbed-Tools
+  - group: GIT_SECRETS
   - name: inventory
     value: veos_vtb
   - name: testbed_file
@@ -169,6 +168,8 @@ stages:
         section: part-2
 
   - job: t0_testbedv2
+    pool:
+      vmImage: 'ubuntu-20.04'
     displayName: "kvmtest-t0 by TestbedV2"
     timeoutInMinutes: 1080
     condition: and(succeeded(), eq(variables.RUN_TESTBEDV2_TEST, 'YES'))
@@ -181,6 +182,8 @@ stages:
         MAX_WORKER: 3
 
   - job: t0_2vlans_testbedv2
+    pool:
+      vmImage: 'ubuntu-20.04'
     displayName: "kvmtest-t0-2vlans by TestbedV2"
     timeoutInMinutes: 1080
     condition: and(succeeded(), eq(variables.RUN_TESTBEDV2_TEST, 'YES'))
@@ -242,6 +245,8 @@ stages:
         vmtype: ceos
 
   - job: t1_lag_testbedv2
+    pool:
+      vmImage: 'ubuntu-20.04'
     displayName: "kvmtest-t1-lag by TestbedV2"
     timeoutInMinutes: 600
     condition: and(succeeded(), eq(variables.RUN_TESTBEDV2_TEST, 'YES'))
