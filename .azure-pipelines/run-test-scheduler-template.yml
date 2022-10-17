@@ -31,7 +31,7 @@ steps:
       set -ex
       wget -O ./.azure-pipelines/test_plan.py  https://raw.githubusercontent.com/sonic-net/sonic-mgmt/master/.azure-pipelines/test_plan.py
       wget -O ./.azure-pipelines/pr_test_scripts.yaml  https://raw.githubusercontent.com/sonic-net/sonic-mgmt/master/.azure-pipelines/pr_test_scripts.yaml
-    displayName: Download TestbedV2 test plan related scripts
+    displayName: Download TestbedV2 scripts
 
   - script: |
       set -ex
