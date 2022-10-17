@@ -48,9 +48,11 @@ stages:
 - stage: BuildVS
   pool: sonicbld
   jobs:
-  - job:
-    steps:
-    - bash: echo "skip"
+  - template: .azure-pipelines/azure-pipelines-build.yml
+    parameters:
+      buildOptions: 'USERNAME=admin SONIC_BUILD_JOBS=$(nproc) BUILD_MULTIASIC_KVM=y ${{ variables.VERSION_CONTROL_OPTIONS }}'
+      jobGroups:
+      - name: vs
 
 - stage: Build
   pool: sonicbld
@@ -139,7 +141,7 @@ stages:
     pool: sonictest
     displayName: "kvmtest-t0-part1"
     timeoutInMinutes: 400
-    condition: and(succeeded(), eq(variables.RUN_CLASSICAL_TEST, 'YES'))
+    condition: and(succeeded(), eq(variables.BUILD_IMG_RUN_CLASSICAL_TEST, 'YES'))
     continueOnError: false
     steps:
     - template: .azure-pipelines/run-test-template.yml
@@ -155,7 +157,7 @@ stages:
     pool: sonictest
     displayName: "kvmtest-t0-part2"
     timeoutInMinutes: 400
-    condition: and(succeeded(), eq(variables.RUN_CLASSICAL_TEST, 'YES'))
+    condition: and(succeeded(), eq(variables.BUILD_IMG_RUN_CLASSICAL_TEST, 'YES'))
     continueOnError: false
     steps:
     - template: .azure-pipelines/run-test-template.yml
@@ -172,7 +174,7 @@ stages:
       vmImage: 'ubuntu-20.04'
     displayName: "kvmtest-t0 by TestbedV2"
     timeoutInMinutes: 1080
-    condition: and(succeeded(), eq(variables.RUN_TESTBEDV2_TEST, 'YES'))
+    condition: and(succeeded(), eq(variables.BUILD_IMG_RUN_TESTBEDV2_TEST, 'YES'))
     continueOnError: false
     steps:
     - template: .azure-pipelines/run-test-scheduler-template.yml
@@ -186,7 +188,7 @@ stages:
       vmImage: 'ubuntu-20.04'
     displayName: "kvmtest-t0-2vlans by TestbedV2"
     timeoutInMinutes: 1080
-    condition: and(succeeded(), eq(variables.RUN_TESTBEDV2_TEST, 'YES'))
+    condition: and(succeeded(), eq(variables.BUILD_IMG_RUN_TESTBEDV2_TEST, 'YES'))
     continueOnError: false
     steps:
     - template: .azure-pipelines/run-test-scheduler-template.yml
@@ -233,7 +235,7 @@ stages:
     pool: sonictest-t1-lag
     displayName: "kvmtest-t1-lag classic"
     timeoutInMinutes: 400
-    condition: and(succeeded(), eq(variables.RUN_CLASSICAL_TEST, 'YES'))
+    condition: and(succeeded(), eq(variables.BUILD_IMG_RUN_CLASSICAL_TEST, 'YES'))
     continueOnError: false
     steps:
     - template: .azure-pipelines/run-test-template.yml
@@ -249,7 +251,7 @@ stages:
       vmImage: 'ubuntu-20.04'
     displayName: "kvmtest-t1-lag by TestbedV2"
     timeoutInMinutes: 600
-    condition: and(succeeded(), eq(variables.RUN_TESTBEDV2_TEST, 'YES'))
+    condition: and(succeeded(), eq(variables.BUILD_IMG_RUN_TESTBEDV2_TEST, 'YES'))
     continueOnError: false
     steps:
     - template: .azure-pipelines/run-test-scheduler-template.yml
