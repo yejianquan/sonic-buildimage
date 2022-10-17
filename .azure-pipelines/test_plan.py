@@ -50,6 +50,7 @@ class TestPlanManager(object):
 
     def create(self, topology, test_plan_name="my_test_plan", deploy_mg_extra_params="", kvm_build_id="",
                min_worker=1, max_worker=2, pr_id="unknown", scripts=[], output=None):
+        print("Test plan create5")
         tp_url = "{}/test_plan".format(self.url)
         print("Creating test plan, topology: {}, name: {}, build info:{} {} {}".format(topology, test_plan_name,
                                                                                        repo_name, pr_id, build_id))
@@ -344,14 +345,16 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
-        print("Test plan create")
+        print("Test plan create1")
         tp = TestPlanManager(
             env["testbed_tools_url"],
             env["tenant_id"],
             env["client_id"],
             env["client_secret"])
+        print("Test plan create2")
 
         if args.action == "create":
+            print("Test plan create3")
             pr_id = os.environ.get("SYSTEM_PULLREQUEST_PULLREQUESTNUMBER")
             repo = os.environ.get("BUILD_REPOSITORY_PROVIDER")
             reason = os.environ.get("BUILD_REASON")
@@ -370,6 +373,8 @@ if __name__ == "__main__":
             if args.test_set is None or args.test_set == "":
                 # Use topology as default test set if not passed
                 args.test_set = args.topology
+            print("Test plan create4")
+            print("Test plan create41")
             tp.create(
                 args.topology,
                 test_plan_name=test_plan_name,
