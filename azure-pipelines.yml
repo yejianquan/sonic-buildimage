@@ -260,6 +260,8 @@ stages:
         MAX_WORKER: 3
 
   - job:
+    pool:
+      vmImage: 'ubuntu-20.04'
     displayName: "kvmtest-t1-lag"
     dependsOn:
     - t1_lag_classic
