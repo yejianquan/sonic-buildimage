@@ -5,7 +5,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y apt-transport-https \
                                          apt-utils \
-                                         azure-cli \
                                          build-essential \
                                          ca-certificates \
                                          cmake \
@@ -131,6 +130,19 @@ RUN apt-get update                  \
     && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"    \
     && apt-get update                                                                                              \
     && apt-get install -y docker-ce-cli
+
+# Install Azure CLI, following https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt#option-2-step-by-step-installation-instructions
+RUN apt-get update                           \
+    &&apt-get install -y ca-certificates     \
+                       curl                  \
+                       apt-transport-https   \
+                       lsb-release gnupg
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/keyrings/microsoft.gpg > /dev/null
+RUN chmod go+r /etc/apt/keyrings/microsoft.gpg
+RUN AZ_REPO=$(lsb_release -cs)
+RUN echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | tee /etc/apt/sources.list.d/azure-cli.list
+RUN apt-get update && apt-get install -y azure-cli
 
 ## Copy and install sonic-mgmt docker dependencies
 COPY \
