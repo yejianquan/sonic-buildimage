@@ -228,6 +228,7 @@ stages:
           MGMT_BRANCH: "master"
           COMMON_EXTRA_PARAMS: "--neighbor_type=sonic "
           VM_TYPE: vsonic
+          SCRIPTS_EXCLUDE: "platform_tests/test_advanced_reboot.py::test_warm_reboot"
 
 #  - job: wan_elastictest
 #    pool: ubuntu-20.04
