@@ -252,7 +252,6 @@ stages:
           TOPOLOGY: dpu
           MIN_WORKER: $(T0_SONIC_INSTANCE_NUM)
           MAX_WORKER: $(T0_SONIC_INSTANCE_NUM)
-          KVM_IMAGE_BRANCH: "master"
           MGMT_BRANCH: "master"
 
 
