@@ -2109,7 +2109,7 @@ def parse_xml(filename, platform=None, port_config_file=None, asic_name=None, hw
         current_device = [devices[key] for key in devices if key.lower() == hostname.lower()][0]
     else:
         try:
-            current_device = [devices[key] for key in devices if key.lower() == asic_name.lower()][0]
+            current_device = [devices[key] for key in devices if key.lower() == asic_hostname.lower()][0]
         except:
             current_device = {}
 
