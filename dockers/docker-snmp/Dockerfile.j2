@@ -76,4 +76,5 @@ COPY ["critical_processes", "/etc/supervisor"]
 # Although exposing ports is not needed for host net mode, keep it for possible bridge mode
 EXPOSE 161/udp 162/udp
 
+RUN chmod +x /usr/bin/docker-snmp-init.sh
 ENTRYPOINT ["/usr/bin/docker-snmp-init.sh"]
